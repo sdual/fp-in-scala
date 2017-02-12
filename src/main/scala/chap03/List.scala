@@ -22,6 +22,13 @@ object List {
     }
   }
 
+  def tail[A](as: List[A]): List[A] = {
+     as match {
+      case Nil => Nil
+      case Cons(_, xs) => xs
+    }
+  } 
+
   def apply[A](as: A*): List[A] = {
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))

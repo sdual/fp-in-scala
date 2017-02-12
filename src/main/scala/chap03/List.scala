@@ -1,5 +1,7 @@
 package chap03
 
+import scala.annotation.tailrec
+
 sealed trait List[+A]
 
 case object Nil extends List[Nothing]
@@ -22,16 +24,63 @@ object List {
     }
   }
 
+  // exercise 3.2
   def tail[A](as: List[A]): List[A] = {
      as match {
       case Nil => Nil
       case Cons(_, xs) => xs
     }
-  } 
+  }
+
+  // exercise 3.3
+  def setHead[A](as: List[A], rp: A): List[A] = {
+    as match {
+      case Nil => Nil
+      case Cons(x, xs) => Cons(rp, xs)
+    }
+  }
+
+  // exercise 3.4
+  @tailrec
+  def drop[A](l: List[A], n: Int): List[A] = {
+    l match {
+      case Nil => Nil
+      case cons if n == 0 => cons
+      case Cons(_, xs) => drop(xs, n - 1)
+    }
+  }
+
+  // exercise 3.5
+  def dropWhile[A](l: List[A], f: A => Boolean): List[A] = {
+    @tailrec
+    def dw(ls: List[A]): List[A] = {
+      ls match {
+        case Nil => Nil
+        case Cons(x, xs) if f(x) => dw(xs)
+        case xs => xs
+      }
+    }
+
+    dw(l)
+  }
+
+  def append[A](a1: List[A], a2: List[A]): List[A] = {
+    a1 match {
+      case Nil => a2
+      case Cons(h, t) => Cons(h, append(t, a2))
+    }
+  }
 
   def apply[A](as: A*): List[A] = {
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
   }
 
+}
+
+object Test extends App {
+  val as = List(2, 4, 6, 8, 10, 3, 5, 8)
+
+  val result = List.dropWhile(as, (a: Int) => a % 2 == 1)
+  println(result)
 }

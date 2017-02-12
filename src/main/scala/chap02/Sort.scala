@@ -1,8 +1,11 @@
 package chap02
 
+import scala.annotation.tailrec
+
 class Sort {
 
   def isSorted[A](as: Array[A], ordered: (A, A) => Boolean): Boolean = {
+    @tailrec
     def isSt(index: Int): Boolean = {
       if (index >= as.length)
         true

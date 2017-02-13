@@ -71,6 +71,11 @@ object List {
     }
   }
 
+  // exercise 3.14
+  def append2[A](a1: List[A], a2: List[A]): List[A] = {
+    foldRight2(a1, a2)((x, y) => Cons(x, y))
+  }
+
   // exercise 3.6
   def init2[A](l: List[A]): List[A] = {
     import collection.mutable.ListBuffer
@@ -95,6 +100,11 @@ object List {
     }
   }
 
+  // exercise 3.13
+  def foldRight2[A, B](as: List[A], z: B)(f: (A, B) => B): B = {
+    foldLeft(List.reverse(as), z)(f)
+  }
+
   // exercise 3.10
   @tailrec
   def foldLeft[A, B](as: List[A], z: B)(f: (A, B) => B): B = {
@@ -102,6 +112,11 @@ object List {
       case Nil => z
       case Cons(x, xs) => foldLeft(xs, f(x, z))(f)
     }
+  }
+
+  // exercise 3.13
+  def foldLeft2[A, B](as: List[A], z: B)(f: (A, B) => B): B = {
+    foldRight(List.reverse(as), z)(f)
   }
 
   def sum2(ns: List[Int]) = foldRight(ns, 0)((x, y) => x + y)
@@ -132,7 +147,8 @@ object List {
 
 object Test extends App {
   val as = List(2, 4, 6, 8, 10, 3, 5, 8)
+  val as2 = List(20, 21)
 
-  println(List.reverse(as))
+  println(List.append2(as, as2))
 
 }

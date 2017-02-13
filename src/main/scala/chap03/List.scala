@@ -169,6 +169,17 @@ object List {
     }
   }
 
+  // exercise 3.21
+  def filter2[A](as: List[A])(f: A => Boolean): List[A] = {
+    flatMap(as){
+      x =>
+        if (f(x))
+          List(x)
+        else
+          Nil
+    }
+  }
+
   // exercise 3.20
   def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] = {
     flatten(
@@ -192,6 +203,6 @@ object Test extends App {
   val as3 = List(List(1, 2), List(3, 4), List(4, 5))
   val ds = List(1.0, 4.0, 6.0)
 
-  println(List.filter(as)(x => x % 2 == 0))
+  println(List.filter2(as)(x => x % 2 == 0))
 
 }

@@ -72,14 +72,6 @@ object List {
   }
 
   // exercise 3.6
-  def init[A](l: List[A]): List[A] = {
-    l match {
-      case Nil => Nil
-      case Cons(x, Nil) =>
-      case Cons(x, xs) => Cons(x, init(xs))
-    }
-  }
-
   def init2[A](l: List[A]): List[A] = {
     import collection.mutable.ListBuffer
     val buf = new ListBuffer[A]
@@ -96,6 +88,21 @@ object List {
     it(l)
   }
 
+  def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = {
+    as match {
+      case Nil => z
+      case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+    }
+  }
+
+  def sum2(ns: List[Int]) = foldRight(ns, 0)((x, y) => x + y)
+
+  def product2(ns: List[Double]) = foldRight(ns, 1.0)(_ * _)
+
+  def length[A](as: List[A]): Int = {
+    foldRight(as, 0)((_, n) => n + 1)
+  }
+
   def apply[A](as: A*): List[A] = {
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
@@ -106,6 +113,6 @@ object List {
 object Test extends App {
   val as = List(2, 4, 6, 8, 10, 3, 5, 8)
 
-  val result = List.dropWhile(as, (a: Int) => a % 2 == 1)
-  println(result)
+  println(List.length(as))
+
 }

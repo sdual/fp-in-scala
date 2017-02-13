@@ -138,6 +138,11 @@ object List {
     foldRight(as, 0)((_, n) => n + 1)
   }
 
+  // exercise 3.15
+  def flatten[A](as: List[List[A]]): List[A] = {
+    foldRight2(as, Nil: List[A])((x, y) => append2(x, y))
+  }
+
   def apply[A](as: A*): List[A] = {
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
@@ -148,7 +153,8 @@ object List {
 object Test extends App {
   val as = List(2, 4, 6, 8, 10, 3, 5, 8)
   val as2 = List(20, 21)
+  val as3 = List(List(1, 2), List(3, 4), List(4, 5))
 
-  println(List.append2(as, as2))
+  println(List.flatten(as3))
 
 }

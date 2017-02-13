@@ -158,6 +158,17 @@ object List {
     foldRight2(as, Nil: List[B])((x, y) => Cons(f(x), y))
   }
 
+  // exercise 3.19
+  def filter[A](as: List[A])(f: A => Boolean): List[A] = {
+    foldRight2(as, Nil: List[A]) {
+      (x, y) =>
+        if (f(x))
+          Cons(x, y)
+        else
+          y
+    }
+  }
+
   def apply[A](as: A*): List[A] = {
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
@@ -171,6 +182,6 @@ object Test extends App {
   val as3 = List(List(1, 2), List(3, 4), List(4, 5))
   val ds = List(1.0, 4.0, 6.0)
 
-  println(List.map(as)(x => x + 1))
+  println(List.filter(as)(x => x % 2 == 0))
 
 }

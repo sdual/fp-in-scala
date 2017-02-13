@@ -190,6 +190,28 @@ object List {
     )
   }
 
+  // exercise 3.22
+  def zipPlus(a1: List[Int], a2: List[Int]): List[Int] = {
+    a1 match {
+      case Nil => Nil
+      case Cons(x, xs) => a2 match {
+        case Nil => Nil
+        case Cons(y, ys) => Cons(x + y, zipPlus(xs, ys))
+      }
+    }
+  }
+
+  // exercise 3.23
+  def zipWith[A, B, C](a1: List[A], a2: List[B])(f: (A, B) => C): List[C] = {
+    a1 match {
+      case Nil => Nil
+      case Cons(x, xs) => a2 match {
+        case Nil => Nil
+        case Cons(y, ys) => Cons(f(x, y), zipWith(xs, ys)(f))
+      }
+    }
+  }
+
   def apply[A](as: A*): List[A] = {
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
@@ -203,6 +225,6 @@ object Test extends App {
   val as3 = List(List(1, 2), List(3, 4), List(4, 5))
   val ds = List(1.0, 4.0, 6.0)
 
-  println(List.filter2(as)(x => x % 2 == 0))
+  println(List.zipPlus(as2, as))
 
 }

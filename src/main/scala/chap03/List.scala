@@ -169,6 +169,16 @@ object List {
     }
   }
 
+  // exercise 3.20
+  def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] = {
+    flatten(
+      foldRight2(as, Nil: List[List[B]]){
+        (x, y) =>
+          Cons(f(x), y)
+      }
+    )
+  }
+
   def apply[A](as: A*): List[A] = {
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))

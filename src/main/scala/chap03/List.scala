@@ -71,6 +71,31 @@ object List {
     }
   }
 
+  // exercise 3.6
+  def init[A](l: List[A]): List[A] = {
+    l match {
+      case Nil => Nil
+      case Cons(x, Nil) =>
+      case Cons(x, xs) => Cons(x, init(xs))
+    }
+  }
+
+  def init2[A](l: List[A]): List[A] = {
+    import collection.mutable.ListBuffer
+    val buf = new ListBuffer[A]
+    @tailrec
+    def it(ls: List[A]): List[A] = {
+      ls match {
+        case Nil => sys.error("init of empty list.")
+        case Cons(_, Nil) => List(buf.toList: _*)
+        case Cons(x, xs) =>
+          buf += x
+          it(xs)
+      }
+    }
+    it(l)
+  }
+
   def apply[A](as: A*): List[A] = {
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))

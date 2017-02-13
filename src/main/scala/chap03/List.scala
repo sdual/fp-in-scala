@@ -143,6 +143,21 @@ object List {
     foldRight2(as, Nil: List[A])((x, y) => append2(x, y))
   }
 
+  // exercise 3.16
+  def plusOne(as: List[Int]): List[Int] = {
+    foldRight2(as, Nil: List[Int])((x, y) => Cons(x + 1, y))
+  }
+
+  // exercise 3.17
+  def foreachString(as: List[Double]): List[String] = {
+    List.foldRight2(as, Nil: List[String])((x, y) => Cons(x.toString, y))
+  }
+
+  // exercise 3.18
+  def map[A, B](as: List[A])(f: A => B): List[B] = {
+    foldRight2(as, Nil: List[B])((x, y) => Cons(f(x), y))
+  }
+
   def apply[A](as: A*): List[A] = {
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
@@ -154,7 +169,8 @@ object Test extends App {
   val as = List(2, 4, 6, 8, 10, 3, 5, 8)
   val as2 = List(20, 21)
   val as3 = List(List(1, 2), List(3, 4), List(4, 5))
+  val ds = List(1.0, 4.0, 6.0)
 
-  println(List.flatten(as3))
+  println(List.map(as)(x => x + 1))
 
 }

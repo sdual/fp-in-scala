@@ -42,26 +42,46 @@ sealed trait Option[+A] {
     }
   }
 
-  def sequence[A](a: List[Option[A]]): Option[List[A]] = {
-    @tailrec
-    def seq(acc: List[A], b: List[Option[A]]): Option[List[A]] = {
-      b match {
-        case Some(x) :: xs => seq(x :: acc, xs)
-        case _ => None
-      }
-    }
-
-    seq(Nil ,a)
-  }
 }
 
 case class Some[+A](get: A) extends Option[A]
 case object None extends Option[Nothing]
 
-object OptionTtest extends App {
+object Option {
+
+  def sequence[A](a: List[Option[A]]): Option[List[A]] = {
+    @tailrec
+    def seq(acc: List[A], b: List[Option[A]]): Option[List[A]] = {
+      b match {
+        case Some(x) :: xs => seq(x :: acc, xs)
+        case Nil => Some(acc.reverse)
+        case _ => None
+      }
+    }
+    seq(Nil, a)
+  }
+
+  def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = {
+
+    def trvs(acc: List[B], x: List[A]): Option[List[B]] = {
+
+    }
+
+  }
+
+}
+
+object OptionTest extends App {
+
+  val test = List(Some(1), Some(2), None)
+
+  val result = Option.sequence(test)
+  println(result)
+
 
   def lift[A, B](f: A => B): Option[A] => Option[B] = _ map f
 
   val abs0: Option[Double] => Option[Double] = lift(math.abs)
+
 
 }

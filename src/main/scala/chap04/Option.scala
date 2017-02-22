@@ -64,9 +64,9 @@ object Option {
   def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = {
 
     def trvs(acc: List[B], x: List[A]): Option[List[B]] = {
-
+      ???
     }
-
+    ???
   }
 
 }

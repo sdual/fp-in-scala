@@ -1,6 +1,6 @@
 package monad.free
 
-import scalaz.Functor
+import scalaz.{Free, Functor}
 
 sealed trait CharToy[+Next]
 
@@ -17,5 +17,31 @@ object CharToy {
       case CharDone()       => CharDone()
     }
   }
+
+  def output(a: Char): Free[CharToy, Unit] = {
+    Free.liftF[CharToy, Unit](CharOutput(a, CharDone()))
+  }
+
+  def bell: Free[CharToy, Unit] = {
+    Free.liftF[CharToy, Unit](CharBell(CharDone()))
+  }
+
+  def done: Free[CharToy, Unit] = {
+    Free.liftF[CharToy, Unit](CharDone())
+  }
+
+}
+
+object CharToyTest extends App {
+
+  import CharToy._
+
+  val c1: Free[CharToy, Unit] = for {
+    _ <- output('A')
+    _ <- bell
+    _ <- done
+  } yield ()
+
+  println(c1)
 
 }

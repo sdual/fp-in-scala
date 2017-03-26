@@ -54,8 +54,8 @@ object Println {
   private val exe: LogF ~> Id = new (LogF ~> Id) {
     def apply[B](l: LogF[B]): B = l match {
       case Debug(msg, a) => debug(msg); a
-      case Info(msg, a) => info(msg); a
-      case Warn(msg, a) => warn(msg); a
+      case Info(msg, a)  => info(msg); a
+      case Warn(msg, a)  => warn(msg); a
       case Error(msg, a) => error(msg); a
     }
   }
@@ -64,20 +64,33 @@ object Println {
     log.runM(exe.apply[Log[A]])
   }
 
-  implicit def logFToFree[A](logf: LogF[A]): Free[LogF, A] = {
-    ???
-  }
-
 }
 
-object LogFTest extends App {
+object Log {
 
-  import Println._
+  import LogF._
+
+  implicit def logFToFree[A](logf: LogF[A]): Free[LogF, A] = {
+    Free.liftF(logf)
+  }
+
+  def debug(msg: String): Free[LogF, Unit] = Debug(msg, ())
+  def info(msg: String): Free[LogF, Unit]  = Info(msg, ())
+  def warn(msg: String): Free[LogF, Unit]  = Warn(msg, ())
+  def error(msg: String): Free[LogF, Unit] = Error(msg, ())
+}
+
+object LogFTest {
 
   val program: Free[LogF, Unit] = {
     for {
-      a <-
-    }
+      a <- Log.info("foooo")
+      b <- Log.error("OH NOES")
+    } yield b
+  }
+
+  def main(args: Array[String]): Unit = {
+    Println(program)
   }
 
 }

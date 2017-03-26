@@ -26,7 +26,7 @@ object Command {
     def apply[A](a: Command[A]): A = a match {
       case Cd(path, next) =>
         val cmd = s"cd $path"
-        cmd.!! // !!でコマンド実行
+        cmd.!!
         println(cmd)
         next
       case Ls(next) =>

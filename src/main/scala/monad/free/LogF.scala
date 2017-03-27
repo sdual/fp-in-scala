@@ -75,8 +75,8 @@ object Log {
   }
 
   def debug(msg: String): Free[LogF, Unit] = Debug(msg, ())
-  def info(msg: String): Free[LogF, Unit]  = Info(msg, ())
-  def warn(msg: String): Free[LogF, Unit]  = Warn(msg, ())
+  def info(msg: String): Free[LogF, Unit] = Info(msg, ())
+  def warn(msg: String): Free[LogF, Unit] = Warn(msg, ())
   def error(msg: String): Free[LogF, Unit] = Error(msg, ())
 }
 

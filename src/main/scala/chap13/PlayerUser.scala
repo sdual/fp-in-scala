@@ -1,6 +1,7 @@
 package chap13
 
 case class Player(name: String, score: Int)
+/*
 
 trait IO[A] { self =>
   def run: Unit
@@ -64,3 +65,4 @@ object PlayerUser extends App {
   }
 
 }
+*/
